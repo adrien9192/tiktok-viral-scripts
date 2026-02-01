@@ -1,0 +1,232 @@
+# TikTok Viral Codes - Janvier 2026
+# Basé sur l'analyse des tendances actuelles
+
+version: "2026.01"
+last_updated: "2026-02-02"
+
+# Algorithme TikTok 2026 - Priorités
+algorithm:
+  priorities:
+    - completion_rate: 0.80  # 80%+ = boost massif
+    - watch_time_ratio: 0.70  # 70%+ temps moyen
+    - engagement_velocity: "first_hour"  # Engagement dans 1ère heure
+    - return_viewers: true  # Fidéliser > viralité one-shot
+    - original_audio: true  # Audio original > trending
+
+  content_length:
+    optimal: 45  # secondes
+    minimum: 15
+    maximum: 180
+    sweet_spot: [30, 60]  # Zone optimale
+
+  posting:
+    frequency: "3-5/week"
+    best_times:
+      - "7h-9h"
+      - "12h-14h"
+      - "19h-22h"
+
+# Hooks par catégorie
+hooks:
+  controversy:
+    templates:
+      - "Ce que {industry} ne veut pas que tu saches sur {topic}"
+      - "Pourquoi personne ne parle de {hidden_truth}"
+      - "J'aurais dû garder ça secret mais {confession}"
+      - "La vérité sur {popular_belief} que tout le monde ignore"
+    efficacy: 0.95
+    risk: "medium"  # Peut polariser
+
+  curiosity_gap:
+    templates:
+      - "J'ai enfin compris pourquoi {unexpected_result}"
+      - "Ce qui se passe quand tu {action} pendant {duration}"
+      - "Le truc que j'aurais aimé savoir avant de {activity}"
+      - "Regarde ce qui arrive à {subject} après {timeframe}"
+    efficacy: 0.92
+    risk: "low"
+
+  fear_of_missing:
+    templates:
+      - "Si tu fais encore {mistake}, arrête immédiatement"
+      - "Les {number} erreurs qui ruinent ton {goal}"
+      - "Tu perds {resource} chaque jour sans savoir que..."
+      - "Stop {common_action} avant qu'il soit trop tard"
+    efficacy: 0.88
+    risk: "low"
+
+  story_loop:
+    templates:
+      - "Jour {number} de {challenge}..."
+      - "Episode {number}: Comment {journey}"
+      - "Ce que j'ai appris après {duration} de {activity}"
+      - "Ma transformation {before} → {after}"
+    efficacy: 0.85
+    risk: "low"
+    series_optimal_length: 5  # épisodes
+
+  confession:
+    templates:
+      - "J'aurais jamais dû partager ça mais..."
+      - "POV: Tu découvres {uncomfortable_truth}"
+      - "La vraie raison pour laquelle j'ai {action}"
+      - "Ce que je n'ai jamais dit sur {topic}"
+    efficacy: 0.90
+    risk: "medium"
+
+  education:
+    templates:
+      - "{profession} ici. Voici ce qu'on ne vous dit pas sur {topic}"
+      - "En {duration}, tu vas apprendre {skill}"
+      - "{number} choses que {expert_type} font différemment"
+      - "Le guide complet de {topic} en {duration}"
+    efficacy: 0.87
+    risk: "low"
+
+  transformation:
+    templates:
+      - "De {before_state} à {after_state} en {duration}"
+      - "Comment j'ai {achievement} sans {common_method}"
+      - "Ce qui a changé quand j'ai arrêté de {habit}"
+      - "Le moment où tout a basculé pour {subject}"
+    efficacy: 0.89
+    risk: "low"
+
+# Structure de script optimale
+script_structure:
+  hook:
+    duration: [0, 3]  # secondes
+    purpose: "Capturer l'attention immédiatement"
+    techniques:
+      - "Question choc"
+      - "Fait surprenant"
+      - "Pattern interrupt visuel"
+      - "Statement controversé"
+    must_include:
+      - "Promesse de valeur"
+      - "Tension ou curiosité"
+
+  setup:
+    duration: [3, 15]
+    purpose: "Contexte rapide"
+    techniques:
+      - "Voici pourquoi..."
+      - "Ce que personne ne dit..."
+      - "Backstory en 10s"
+    must_include:
+      - "Crédibilité (si pertinent)"
+      - "Enjeux clairs"
+
+  content:
+    duration: [15, 45]
+    purpose: "Valeur principale"
+    techniques:
+      - "3-5 points digestibles"
+      - "Texte à l'écran"
+      - "Visuel engageant"
+      - "Pauses pour absorption"
+    must_include:
+      - "Information actionnable"
+      - "Preuves/exemples"
+
+  payoff:
+    duration: [45, 55]
+    purpose: "Climax émotionnel"
+    techniques:
+      - "Révélation"
+      - "Transformation visible"
+      - "Satisfaction de la promesse"
+    must_include:
+      - "Résolution de la tension du hook"
+
+  cta:
+    duration: [55, 60]
+    purpose: "Appel à l'action"
+    templates:
+      - "Et toi, tu fais comment?"
+      - "Tag quelqu'un qui a besoin de ça"
+      - "Partie 2 demain si ça intéresse"
+      - "Commente [emoji] pour la suite"
+      - "Save pour plus tard"
+    must_include:
+      - "Action simple et claire"
+
+# Niches et leurs codes spécifiques
+niches:
+  finance:
+    tone: "confidentiel, insider"
+    hooks_preferred: ["confession", "education", "fear_of_missing"]
+    hashtags: ["#argentfacile", "#investissement", "#sidehustle"]
+    optimal_length: 45
+
+  fitness:
+    tone: "motivant, direct"
+    hooks_preferred: ["transformation", "education", "story_loop"]
+    hashtags: ["#fitnessmotivation", "#workout", "#gains"]
+    optimal_length: 30
+
+  lifestyle:
+    tone: "relatable, authentique"
+    hooks_preferred: ["confession", "curiosity_gap", "story_loop"]
+    hashtags: ["#vlog", "#dayinmylife", "#aesthetic"]
+    optimal_length: 60
+
+  business:
+    tone: "pragmatique, résultats"
+    hooks_preferred: ["education", "controversy", "fear_of_missing"]
+    hashtags: ["#entrepreneur", "#business", "#hustle"]
+    optimal_length: 45
+
+  comedy:
+    tone: "absurde, inattendu"
+    hooks_preferred: ["curiosity_gap", "story_loop"]
+    hashtags: ["#comedy", "#funny", "#relatable"]
+    optimal_length: 15
+
+  education:
+    tone: "accessible, expert"
+    hooks_preferred: ["education", "curiosity_gap", "controversy"]
+    hashtags: ["#learnontiktok", "#edutok", "#facts"]
+    optimal_length: 60
+
+# Tendances Janvier 2026
+trends_january_2026:
+  formats:
+    - name: "26 Goals for 2026"
+      description: "Liste de 26 objectifs spécifiques pour l'année"
+      template: "Mes 26 objectifs pour 2026: {numbered_list}"
+
+    - name: "Micro-Series Educative"
+      description: "Série numérotée 3-5 épisodes"
+      template: "Episode {n}/{total}: {topic}"
+
+    - name: "Community Choice"
+      description: "Laisser les commentaires décider"
+      template: "Vous choisissez: {option_a} ou {option_b}?"
+
+    - name: "Regret Confessional"
+      description: "Avouer ses erreurs passées"
+      template: "Mon plus grand regret de {year}..."
+
+    - name: "Day in My Life"
+      description: "Format DITL immersif"
+      template: "Une journée de {profession/situation}"
+
+  audio_trends:
+    original_audio_boost: true
+    voiceover_style: "conversationnel"
+    music_tips:
+      - "Sons originaux > trending"
+      - "Volume musique: 20-30%"
+      - "Sync points avec texte"
+
+# Anti-patterns à éviter
+anti_patterns:
+  - "#fyp #viral #foryou"  # Hashtags génériques inutiles
+  - "Première seconde sans hook"
+  - "Passive voice"
+  - "Trop de texte à l'écran"
+  - "Promesse non tenue"
+  - "Durée > 90s sans justification"
+  - "Audio trending saturé"
+  - "Clickbait sans payoff"

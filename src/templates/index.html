@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Viral Script Generator</title>
+    <meta name="description" content="Génère des scripts de vidéos virales TikTok avec l'IA - Hooks, tendances 2026, et codes viraux">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">🎬</div>
+            <h1>TikTok Script Generator</h1>
+        </div>
+        <p class="subtitle">Génère des scripts viraux avec les codes TikTok 2026</p>
+        <div id="locationBadge" class="location-badge">
+            <span class="location-icon">📍</span>
+            <span id="locationText">Détection...</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Input Section -->
+        <section class="card">
+            <h2 class="card-title">
+                <span class="icon">✍️</span>
+                Créer un Script
+            </h2>
+
+            <form id="scriptForm">
+                <div class="form-group">
+                    <label for="topic">Sujet de la vidéo *</label>
+                    <textarea
+                        id="topic"
+                        name="topic"
+                        placeholder="Ex: Comment j'ai gagné 5000€ en side hustle, Les 5 erreurs qui ruinent ton skincare, Ce que personne ne dit sur le télétravail..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="niche">Niche</label>
+                        <select id="niche" name="niche">
+                            <option value="custom">Automatique</option>
+                            <option value="finance">Finance / Argent</option>
+                            <option value="fitness">Fitness / Santé</option>
+                            <option value="lifestyle">Lifestyle / Quotidien</option>
+                            <option value="business">Business / Entrepreneuriat</option>
+                            <option value="comedy">Comédie / Humour</option>
+                            <option value="education">Éducation / Savoir</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hook_style">Style de Hook</label>
+                        <select id="hook_style" name="hook_style">
+                            <option value="auto">Automatique (recommandé)</option>
+                            <option value="controversy">Controverse</option>
+                            <option value="curiosity_gap">Curiosité</option>
+                            <option value="fear_of_missing">FOMO</option>
+                            <option value="story_loop">Story Loop</option>
+                            <option value="confession">Confession</option>
+                            <option value="education">Éducation</option>
+                            <option value="transformation">Transformation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="length">Durée cible</label>
+                        <select id="length" name="length">
+                            <option value="short">Court (15-30s)</option>
+                            <option value="medium" selected>Medium (30-60s)</option>
+                            <option value="long">Long (60-90s)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tone">Ton</label>
+                        <input
+                            type="text"
+                            id="tone"
+                            name="tone"
+                            placeholder="Ex: motivant, drôle, sérieux..."
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="target_audience">Audience cible (optionnel)</label>
+                    <input
+                        type="text"
+                        id="target_audience"
+                        name="target_audience"
+                        placeholder="Ex: entrepreneurs 25-40 ans, étudiants, parents..."
+                    >
+                </div>
+
+                <div class="form-group">
+                    <div class="toggle-group">
+                        <div id="ctaToggle" class="toggle active"></div>
+                        <label style="margin-bottom: 0;">Inclure un Call-to-Action</label>
+                    </div>
+                </div>
+
+                <button type="submit" id="generateBtn" class="btn btn-primary">
+                    ✨ Générer le Script
+                </button>
+            </form>
+
+            <!-- Live Trends Section -->
+            <div class="trends-section">
+                <div class="trends-header">
+                    <h3>
+                        <span class="pulse-dot"></span>
+                        Tendances en direct
+                    </h3>
+                    <button id="refreshTrends" class="btn-icon" title="Actualiser">🔄</button>
+                </div>
+
+                <!-- Tabs for trend sources -->
+                <div class="trends-tabs">
+                    <button class="trend-tab active" data-source="merged">🔥 Top</button>
+                    <button class="trend-tab" data-source="tiktok">TikTok</button>
+                    <button class="trend-tab" data-source="x">𝕏</button>
+                    <button class="trend-tab" data-source="google">Google</button>
+                </div>
+
+                <div id="liveTrendsContainer" class="live-trends-container">
+                    <div class="trends-loading">
+                        <div class="spinner-small"></div>
+                        Chargement des tendances...
+                    </div>
+                </div>
+
+                <div id="trendsUpdatedAt" class="trends-updated"></div>
+            </div>
+        </section>
+
+        <!-- Output Section -->
+        <section>
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Génération du script viral...</p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Analyse des tendances et création du hook optimal</p>
+            </div>
+
+            <div id="scriptOutput" class="card script-output">
+                <!-- Script will be rendered here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            TikTok Viral Script Generator v1.1 |
+            Tendances temps réel |
+            Créé par <a href="#">Adrien Lainé</a>
+        </p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">
+            Powered by Claude AI
+        </p>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
