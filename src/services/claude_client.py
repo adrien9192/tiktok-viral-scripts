@@ -17,7 +17,9 @@ class ClaudeClient:
     def __init__(self):
         self.api_key = os.getenv("ANTHROPIC_API_KEY")
         self.api_url = "https://api.anthropic.com/v1/messages"
-        self.model = "claude-sonnet-4-20250514"  # Fast and affordable
+        # Haiku = très rapide et économique (~$0.25/1M tokens input)
+        # Sonnet = meilleure qualité (~$3/1M tokens input)
+        self.model = os.getenv("CLAUDE_MODEL", "claude-3-5-haiku-20241022")
         self.use_api = bool(self.api_key)
 
     def _call_api(self, prompt: str, max_tokens: int = 2000) -> Optional[str]:
