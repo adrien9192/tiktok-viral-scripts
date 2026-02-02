@@ -70,65 +70,83 @@ class ScriptGenerator:
         # Get a hook template for inspiration
         hook_template = self.hook_library.get_hook_template(hook_style, topic)
 
-        prompt = f"""Tu es un expert en création de contenu viral TikTok. Génère un script complet pour une vidéo TikTok.
+        # Build anti-patterns list (avoid backslash in f-string)
+        anti_patterns = analysis.get('avoid', [])[:5]
+        newline = "\n"
+        anti_patterns_text = newline.join("- " + ap for ap in anti_patterns)
 
-SUJET: {topic}
-NICHE: {niche}
-DURÉE CIBLE: {duration} secondes
-STYLE DE HOOK: {hook_style}
-{"AUDIENCE CIBLE: " + target_audience if target_audience else ""}
-{"TONE: " + tone if tone else "TONE: " + analysis.get('recommended_tone', 'authentique')}
-{"EPISODE " + str(series_episode) + " d'une série" if series_episode else ""}
+        # Build optional sections
+        audience_line = "AUDIENCE CIBLE: " + target_audience if target_audience else ""
+        tone_value = tone if tone else analysis.get('recommended_tone', 'authentique')
+        tone_line = "TONE: " + tone_value
+        episode_line = "EPISODE " + str(series_episode) + " d'une série" if series_episode else ""
 
-INSPIRATION HOOK: "{hook_template}"
+        setup_end = min(15, duration // 4)
+        content_start = setup_end
+        content_end = duration - 15
+        payoff_end = duration - 5
+
+        cta_section = "5. CTA (" + str(payoff_end) + "-" + str(duration) + "s): Appel à l'action." if include_cta else ""
+        cta_json = '"cta": { "timecode": "' + str(payoff_end) + '-' + str(duration) + 's", "text": "...", "visual_notes": "..." },' if include_cta else ""
+
+        prompt = """Tu es un expert en création de contenu viral TikTok. Génère un script complet pour une vidéo TikTok.
+
+SUJET: """ + topic + """
+NICHE: """ + niche + """
+DURÉE CIBLE: """ + str(duration) + """ secondes
+STYLE DE HOOK: """ + hook_style + """
+""" + audience_line + """
+""" + tone_line + """
+""" + episode_line + """
+
+INSPIRATION HOOK: \"""" + hook_template + """\"
 
 STRUCTURE OBLIGATOIRE (avec timecodes):
 
-1. HOOK (0-3s): Accroche immédiate. Question choc ou statement provocateur. L'utilisateur doit être captivé INSTANTANÉMENT.
+1. HOOK (0-3s): Accroche immédiate. Question choc ou statement provocateur.
 
-2. SETUP (3-{min(15, duration//4)}s): Contexte rapide. Établis la crédibilité ou l'enjeu. "Voici pourquoi..." ou "Ce que personne ne dit..."
+2. SETUP (3-""" + str(setup_end) + """s): Contexte rapide. "Voici pourquoi..." ou "Ce que personne ne dit..."
 
-3. CONTENT ({min(15, duration//4)}-{duration-15}s): Valeur principale. 3-5 points digestibles. Chaque phrase doit informer ou surprendre.
+3. CONTENT (""" + str(content_start) + """-""" + str(content_end) + """s): Valeur principale. 3-5 points digestibles.
 
-4. PAYOFF ({duration-15}-{duration-5}s): Climax. Résous la tension du hook. Moment de satisfaction ou révélation.
+4. PAYOFF (""" + str(content_end) + """-""" + str(payoff_end) + """s): Climax. Résous la tension du hook.
 
-{"5. CTA (" + str(duration-5) + "-" + str(duration) + "s): Appel à l'action. 'Et toi?' / 'Tag quelqu'un' / 'Partie 2?'" if include_cta else ""}
+""" + cta_section + """
 
 RÈGLES ALGORITHME TIKTOK 2026:
 - Completion rate > 80% = priorité
 - Pas de #fyp ou #viral (inutile)
 - Audio original > trending sounds
-- Engagement dans la première heure crucial
 
 ANTI-PATTERNS À ÉVITER:
-{chr(10).join('- ' + ap for ap in analysis.get('avoid', [])[:5])}
+""" + anti_patterns_text + """
 
-Réponds UNIQUEMENT en JSON valide avec cette structure exacte:
-{{
-    "hook": {{
+Réponds UNIQUEMENT en JSON valide:
+{
+    "hook": {
         "timecode": "0-3s",
         "text": "...",
         "visual_notes": "..."
-    }},
-    "setup": {{
-        "timecode": "3-Xs",
+    },
+    "setup": {
+        "timecode": "3-""" + str(setup_end) + """s",
         "text": "...",
         "visual_notes": "..."
-    }},
-    "content": {{
-        "timecode": "X-Ys",
+    },
+    "content": {
+        "timecode": \"""" + str(content_start) + """-""" + str(content_end) + """s",
         "text": "...",
         "visual_notes": "..."
-    }},
-    "payoff": {{
-        "timecode": "Y-Zs",
+    },
+    "payoff": {
+        "timecode": \"""" + str(content_end) + """-""" + str(payoff_end) + """s",
         "text": "...",
         "visual_notes": "..."
-    }},
-    {"\"cta\": { \"timecode\": \"Z-" + str(duration) + "s\", \"text\": \"...\", \"visual_notes\": \"...\" }," if include_cta else ""}
-    "total_duration": {duration},
+    },
+    """ + cta_json + """
+    "total_duration": """ + str(duration) + """,
     "tips": ["conseil1", "conseil2", "conseil3"]
-}}"""
+}"""
 
         return prompt
 
@@ -161,6 +179,10 @@ Réponds UNIQUEMENT en JSON valide avec cette structure exacte:
         }
         hook_text = self.hook_library.generate_hook(hook_style, hook_context)
 
+        setup_end = min(15, duration // 4)
+        content_end = duration - 15
+        payoff_end = duration - 5
+
         return {
             "hook": {
                 "timecode": "0-3s",
@@ -168,22 +190,22 @@ Réponds UNIQUEMENT en JSON valide avec cette structure exacte:
                 "visual_notes": "Face cam rapprochée, émotion surprise"
             },
             "setup": {
-                "timecode": f"3-{min(15, duration//4)}s",
-                "text": f"Voici ce que j'ai découvert sur {topic}...",
+                "timecode": "3-" + str(setup_end) + "s",
+                "text": "Voici ce que j'ai découvert sur " + topic + "...",
                 "visual_notes": "Transition rapide, texte à l'écran"
             },
             "content": {
-                "timecode": f"{min(15, duration//4)}-{duration-15}s",
-                "text": f"Premier point important sur {topic}. Deuxième élément clé. Et surtout, le troisième aspect que tout le monde ignore.",
+                "timecode": str(setup_end) + "-" + str(content_end) + "s",
+                "text": "Premier point important sur " + topic + ". Deuxième élément clé. Et surtout, le troisième aspect que tout le monde ignore.",
                 "visual_notes": "Points numérotés à l'écran, B-roll dynamique"
             },
             "payoff": {
-                "timecode": f"{duration-15}-{duration-5}s",
-                "text": f"C'est pour ça que {topic} peut tout changer.",
+                "timecode": str(content_end) + "-" + str(payoff_end) + "s",
+                "text": "C'est pour ça que " + topic + " peut tout changer.",
                 "visual_notes": "Moment de révélation, pause dramatique"
             },
             "cta": {
-                "timecode": f"{duration-5}-{duration}s",
+                "timecode": str(payoff_end) + "-" + str(duration) + "s",
                 "text": "Et toi, tu en penses quoi? Dis-moi en commentaire!",
                 "visual_notes": "Pointer vers les commentaires"
             },
